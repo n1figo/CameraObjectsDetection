@@ -18,7 +18,7 @@ import multiprocessing
 import numpy as np
 import skimage.transform
 import tensorflow as tf
-import keras
+import keras  # ver 2.9.0
 import keras.backend as K
 import keras.layers as KL
 import keras.engine as KE
@@ -248,8 +248,9 @@ def clip_boxes_graph(boxes, window):
     clipped.set_shape((clipped.shape[0], 4))
     return clipped
 
-
-class ProposalLayer(KE.Layer):
+# keras.layers.Layer
+# class ProposalLayer(KE.Layer):
+class ProposalLayer(keras.layers.Layer):
     """Receives anchor scores and selects a subset to pass as proposals
     to the second stage. Filtering is done based on anchor scores and
     non-max suppression to remove overlaps. It also applies bounding
@@ -337,8 +338,9 @@ def log2_graph(x):
     """Implementatin of Log2. TF doesn't have a native implemenation."""
     return tf.log(x) / tf.log(2.0)
 
-
-class PyramidROIAlign(KE.Layer):
+# keras.layers.Layer
+# class PyramidROIAlign(KE.Layer):
+class PyramidROIAlign(keras.layers.Layer):
     """Implements ROI Pooling on multiple levels of the feature pyramid.
 
     Params:
@@ -612,8 +614,9 @@ def detection_targets_graph(proposals, gt_class_ids, gt_boxes, gt_masks, config)
 
     return rois, roi_gt_class_ids, deltas, masks
 
-
-class DetectionTargetLayer(KE.Layer):
+# keras.layers.Layer
+# class DetectionTargetLayer(KE.Layer):
+class DetectionTargetLayer(keras.layers.Layer):
     """Subsamples proposals and generates target box refinement, class_ids,
     and masks for each.
 
@@ -774,8 +777,9 @@ def refine_detections_graph(rois, probs, deltas, window, config):
     detections = tf.pad(detections, [(0, gap), (0, 0)], "CONSTANT")
     return detections
 
-
-class DetectionLayer(KE.Layer):
+# keras.layers.Layer
+# class DetectionLayer(KE.Layer):
+class DetectionLayer(keras.layers.Layer):
     """Takes classified proposal boxes and their bounding box deltas and
     returns the final detection boxes.
 
